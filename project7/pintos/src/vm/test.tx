@@ -1,0 +1,126 @@
+cd build && make check
+make[1]: Entering directory `/home/2011003616/tmp/src/vm/build'
+gcc -m32 -c ../../threads/init.c -o threads/init.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/kernel -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers -DUSERPROG -DFILESYS -DVM -MMD -MF threads/init.d
+gcc -m32 -c ../../threads/thread.c -o threads/thread.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/kernel -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers -DUSERPROG -DFILESYS -DVM -MMD -MF threads/thread.d
+ld -melf_i386 -T threads/kernel.lds.s -o kernel.o threads/start.o threads/init.o threads/thread.o threads/switch.o threads/interrupt.o threads/intr-stubs.o threads/synch.o threads/palloc.o threads/malloc.o devices/pit.o devices/timer.o devices/kbd.o devices/vga.o devices/serial.o devices/block.o devices/partition.o devices/ide.o devices/input.o devices/intq.o devices/rtc.o devices/shutdown.o devices/speaker.o lib/debug.o lib/random.o lib/stdio.o lib/stdlib.o lib/string.o lib/arithmetic.o lib/ustar.o lib/kernel/debug.o lib/kernel/list.o lib/kernel/bitmap.o lib/kernel/hash.o lib/kernel/console.o userprog/process.o userprog/pagedir.o userprog/exception.o userprog/syscall.o userprog/gdt.o userprog/tss.o filesys/filesys.o filesys/free-map.o filesys/file.o filesys/directory.o filesys/inode.o filesys/fsutil.o vm/page.o vm/file.o vm/swap.o
+objcopy -R .note -R .comment -S kernel.o kernel.bin
+pintos -v -k -T 120 --bochs  --filesys-size=2 -p tests/userprog/args-none -a args-none --swap-size=4 -- -q    -f run args-none < /dev/null 2> tests/userprog/args-none.errors |tee tests/userprog/args-none.output
+Copying tests/userprog/args-none to scratch partition...
+warning: can't find squish-pty, so terminal input will fail
+bochs -q
+PiLo hda1
+Loading.........
+Kernel command line: -q -f extract run args-none
+Pintos booting with 4,096 kB RAM...
+383 pages available in kernel pool.
+383 pages available in user pool.
+Calibrating timer...  204,600 loops/s.
+hda: 13,104 sectors (6 MB), model "BXHD00011", serial "Generic 1234"
+hda1: 155 sectors (77 kB), Pintos OS kernel (20)
+hda2: 4,096 sectors (2 MB), Pintos file system (21)
+hda3: 91 sectors (45 kB), Pintos scratch (22)
+hda4: 8,192 sectors (4 MB), Pintos swap (23)
+filesys: using hda2
+scratch: using hda3
+swap: using hda4
+Formatting file system...done.
+Boot complete.
+Extracting ustar archive from scratch device into file system...
+Putting 'args-none' into the file system...
+Erasing ustar archive...
+Executing 'args-none':
+(args) begin
+(args) argc = 1
+(args) argv[0] = 'args-none'
+(args) argv[1] = null
+(args) end
+args-none: exit(0)
+Execution of 'args-none' complete.
+Timer: 304 ticks
+Thread: 30 idle ticks, 212 kernel ticks, 65 user ticks
+hda2 (filesys): 63 reads, 186 writes
+hda3 (scratch): 90 reads, 2 writes
+hda4 (swap): 0 reads, 0 writes
+Console: 1035 characters output
+Keyboard: 0 keys pressed
+Exception: 5 page faults
+Powering off...
+========================================================================
+                       Bochs x86 Emulator 2.6.2
+                Built from SVN snapshot on May 26, 2013
+                  Compiled on Feb 20 2014 at 12:34:17
+========================================================================
+perl -I../.. ../../tests/userprog/args-none.ck tests/userprog/args-none tests/userprog/args-none.result
+pass tests/userprog/args-none
+pintos -v -k -T 120 --bochs  --filesys-size=2 -p tests/userprog/args-single -a args-single --swap-size=4 -- -q    -f run 'args-single onearg' < /dev/null 2> tests/userprog/args-single.errors |tee tests/userprog/args-single.output
+Copying tests/userprog/args-single to scratch partition...
+warning: can't find squish-pty, so terminal input will fail
+bochs -q
+PiLo hda1
+Loading.........
+Kernel command line: -q -f extract run 'args-single onearg'
+Pintos booting with 4,096 kB RAM...
+383 pages available in kernel pool.
+383 pages available in user pool.
+Calibrating timer...  204,600 loops/s.
+hda: 13,104 sectors (6 MB), model "BXHD00011", serial "Generic 1234"
+hda1: 155 sectors (77 kB), Pintos OS kernel (20)
+hda2: 4,096 sectors (2 MB), Pintos file system (21)
+hda3: 91 sectors (45 kB), Pintos scratch (22)
+hda4: 8,192 sectors (4 MB), Pintos swap (23)
+filesys: using hda2
+scratch: using hda3
+swap: using hda4
+Formatting file system...done.
+Boot complete.
+Extracting ustar archive from scratch device into file system...
+Putting 'args-single' into the file system...
+Erasing ustar archive...
+Executing 'args-single onearg':
+(args) begin
+(args) argc = 2
+(args) argv[0] = 'args-single'
+(args) argv[1] = 'onearg'
+(args) argv[2] = null
+(args) end
+args-single: exit(0)
+Execution of 'args-single onearg' complete.
+Timer: 312 ticks
+Thread: 30 idle ticks, 215 kernel ticks, 70 user ticks
+hda2 (filesys): 63 reads, 186 writes
+hda3 (scratch): 90 reads, 2 writes
+hda4 (swap): 0 reads, 0 writes
+Console: 1096 characters output
+Keyboard: 0 keys pressed
+Exception: 5 page faults
+Powering off...
+========================================================================
+                       Bochs x86 Emulator 2.6.2
+                Built from SVN snapshot on May 26, 2013
+                  Compiled on Feb 20 2014 at 12:34:17
+========================================================================
+perl -I../.. ../../tests/userprog/args-single.ck tests/userprog/args-single tests/userprog/args-single.result
+pass tests/userprog/args-single
+pintos -v -k -T 120 --bochs  --filesys-size=2 -p tests/userprog/args-multiple -a args-multiple --swap-size=4 -- -q    -f run 'args-multiple some arguments for you!' < /dev/null 2> tests/userprog/args-multiple.errors |tee tests/userprog/args-multiple.output
+Copying tests/userprog/args-multiple to scratch partition...
+warning: can't find squish-pty, so terminal input will fail
+bochs -q
+PiLo hda1
+Loading.........
+Kernel command line: -q -f extract run 'args-multiple some arguments for you!'
+Pintos booting with 4,096 kB RAM...
+383 pages available in kernel pool.
+383 pages available in user pool.
+Calibrating timer...  204,600 loops/s.
+hda: 13,104 sectors (6 MB), model "BXHD00011", serial "Generic 1234"
+hda1: 155 sectors (77 kB), Pintos OS kernel (20)
+hda2: 4,096 sectors (2 MB), Pintos file system (21)
+hda3: 91 sectors (45 kB), Pintos scratch (22)
+hda4: 8,192 sectors (4 MB), Pintos swap (23)
+filesys: using hda2
+scratch: using hda3
+swap: using hda4
+Formatting file system...done.
+Boot complete.
+Extracting ustar archive from scratch device into file system...
+Putting 'args-multiple' into the file system...
